@@ -1,0 +1,277 @@
+---
+Newlines replaced:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+HTML characters changed:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Remove URLs:
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Remove duplicate spaces:
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Create spacy Doc:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Replace with lemma:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Append tag:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Add newline between each sentence:
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Preprocessing code: expected behavior':
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Preprocessing code: subsampling correct':
+  type: flexible
+  max_mark: 3.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Preprocessing code: clear, well-documented':
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Features 1-14:
+  type: flexible
+  max_mark: 7.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Features 15-17:
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Features 18-29:
+  type: flexible
+  max_mark: 5.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Features 30-173:
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Feature extraction code: expected behavior':
+  type: flexible
+  max_mark: 3.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Feature extraction code: clear, well-structured':
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Feature extraction code: efficiency':
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Submitted file 3.1:
+  type: rubric
+  max_mark: 1.0
+  levels:
+    Not submitted:
+      description: This criterion was not satisfied.
+      mark: 0.0
+    Submitted:
+      description: This criterion was satisfied perfectly or nearly perfectly.
+      mark: 1.0
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Submitted file 3.2:
+  type: rubric
+  max_mark: 1.0
+  levels:
+    Not submitted:
+      description: This criterion was not satisfied.
+      mark: 0.0
+    Submitted:
+      description: This criterion was satisfied perfectly or nearly perfectly.
+      mark: 1.0
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Submitted file 3.3:
+  type: rubric
+  max_mark: 1.0
+  levels:
+    Not submitted:
+      description: This criterion was not satisfied.
+      mark: 0.0
+    Submitted:
+      description: This criterion was satisfied perfectly or nearly perfectly.
+      mark: 1.0
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Submitted file 3.4:
+  type: rubric
+  max_mark: 1.0
+  levels:
+    Not submitted:
+      description: This criterion was not satisfied.
+      mark: 0.0
+    Submitted:
+      description: This criterion was satisfied perfectly or nearly perfectly.
+      mark: 1.0
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Classification: accuracy/precision/recall/confusion matrix':
+  type: flexible
+  max_mark: 4.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.1 Correct split of data:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.1 Correct selection of classifier:
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.2 line 1 (results):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.2 line 2 (discussion):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.3 first 2 lines (p-values):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.3 lines 3-4 (accuracy):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.3 lines 5-6 (top features):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.3 lines 8-10 (discussion):
+  type: flexible
+  max_mark: 3.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.4 correct cross-fold:
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.4 lines 1-5 (accuracies):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+3.4 line 6 (p-values):
+  type: flexible
+  max_mark: 2.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+'Classification: code clarity':
+  type: flexible
+  max_mark: 1.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: false
+Bonus:
+  type: flexible
+  max_mark: 15.0
+  description: ''
+  ta_visible: true
+  peer_visible: false
+  bonus: true
