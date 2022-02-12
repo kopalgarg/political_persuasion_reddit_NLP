@@ -8,6 +8,8 @@
 #  * All of the files in this directory and all subdirectories are:
 #  * Copyright (c) 2020 Frank Rudzicz
 
+## Kopal Garg, 1003063221
+
 import numpy as np
 import argparse
 import json
@@ -16,6 +18,7 @@ import sys
 import string
 import os
 import csv
+
 
 # Provided wordlists.
 FIRST_PERSON_PRONOUNS = {
@@ -32,16 +35,12 @@ SLANG = {
     'afn', 'bbs', 'cya', 'ez', 'f2f', 'gtr', 'ic', 'jk', 'k', 'ly', 'ya',
     'nm', 'np', 'plz', 'ru', 'so', 'tc', 'tmi', 'ym', 'ur', 'u', 'sol', 'fml'}
 
-wordlist = '/u/cs401/Wordlists'
-featdir = '/u/cs401/A1/feats/'
-
 def return_num(x):
     if len(x) > 0:
         if x[0].isnumeric():
             return float(x)
     else:
         return np.NaN
-
 
 # BristolGilhoolyLogie
 bgl_data = {}
@@ -53,6 +52,7 @@ for row in bgl_reader:
             return_num(row["IMG"]), 
             return_num(row["FAM"])
                 ]
+
 # Warringer
 warr_data = {}
 warr_csv = open("/u/cs401/Wordlists/Ratings_Warriner_et_al.csv")
@@ -67,6 +67,7 @@ for row in warr_reader:
 a1_path = '/u/cs401/A1'
 feats_path = os.path.join(a1_path, 'feats')
 
+# LIWC
 file_data = {
         'Left': np.array([0]),
         'Center': np.array([1]),
@@ -81,7 +82,6 @@ class_data = {
 }
 categories = ['Left', 'Center', 'Right', 'Alt']
 
-# Here is loading the data from /u/cs401/A1.
 for fname in file_data:
     tmp = {}
     ids = open(os.path.join(feats_path, fname + '_IDs.txt')).readlines() 
@@ -89,8 +89,6 @@ for fname in file_data:
     for i in range(len(ids)):
         tmp[str(ids[i]).strip()] = liwc[i]
     file_data[fname] = tmp
-
-# LIWC
 
 def extract1(comment):
     ''' This function extracts features from a single comment
@@ -119,8 +117,9 @@ def extract1(comment):
     for i in range(len(body)):
         body[i] = body[i].lower()
     # I will also convert body in comment to lower for convenient processing
-    for i in re.findall("[A-Z]+/", comment):
-        comment = comment.replace(i, i.lower())
+    def replacement(match):
+        return match.group().lower()
+    comment = re.sub(r"[a-zA-Z]+/", replacement, comment)
 
     # TODO: Extract features that do not rely on capitalization.
     # feats[1] : Number of first-person pronouns
@@ -143,7 +142,7 @@ def extract1(comment):
             feats[6] +=1
     # going+to+vb
     pattern_ftb = re.compile(r"(?:go/VBG\s+to/[A-Z]{2,}\s+\w*/VB|going\s+to/[A-Z]{2,}\s+\w*/VB)")
-    feats[6] += len(pattern_ftb.findall(comment))
+    feats[6] = len(pattern_ftb.findall(comment))
 
     punct=string.punctuation
     for i in body:
@@ -154,26 +153,27 @@ def extract1(comment):
         if len(i) > 1:
             if all([character in punct for character in i]):
                 feats[8] +=1
-        # feats[9] : Number of common nouns
-        if i in ["NN", "NNS"]:
-            feats[9]+=1
+       
+    # feats[9] : Number of common nouns
+    feats[9]=POS.count('NN')+POS.count('NNS')
+
     
-        # feats[10] : Number of proper nouns
-        if i in ["NNP", "NNPS"]:
-            feats[10]+=1
+    # feats[10] : Number of proper nouns
+    feats[10]=POS.count('NNP')+POS.count('NNPS')
 
-        # feats[11] : Number of adverbs
-        if i in ["RB", "RBR", "RBS"]:
-            feats[11]+=1
 
-        # feats[12] : Number of adverbs
-        if i in ["WDT", "WP", "WP$", "WRB"]:
-            feats[12]+=1
+    # feats[11] : Number of adverbs
+    feats[11] = POS.count('RB')+POS.count('RBR')+POS.count('RBS')
 
-        # feats[13] : Number of slang acronyms
-        if i in SLANG:
-            feats[13]+=1
-    
+
+    # feats[12] : Number of wh- words
+    pattern_wh = re.compile(r"(/WDT\b|/WP\$\W|/WRB\b|/WP\b)")
+    feats[12] = POS.count('WDT')+POS.count('WP')+POS.count('WP$')+POS.count('WRB')
+
+    # feats[13] : Number of slang acronyms
+    pattern_slang = re.compile(r"(?:\s|^)("+r"|".join(SLANG)+")(?:/[A-Z]{0,4})")
+    feats[13] = len(pattern_slang.findall(comment))
+
     sentences = comment.split("\n")[:-1]
     tokenCount=0
     
@@ -197,6 +197,11 @@ def extract1(comment):
     # feats[16] : Number of sentences
     feats[16] = len(sentences)
 
+    feats = feats17_28(body, feats)
+    return feats
+
+def feats17_28(body, feats):
+
     # feats[17] : Average of AoA (100-700) from Bristol, Gilhooly, and Logie norms
     # feats[18] : Average of IMG from Bristol, Gilhooly, and Logie norms
     # feats[19] : Average of FAM from Bristol, Gilhooly, and Logie norms
@@ -208,50 +213,46 @@ def extract1(comment):
     # feats[26] : Average of D.Mean.Sum from Warringer norms
     # feats[27] : Standard deviation of V.Mean.Sum from Warringer norms
     # feats[28] : Standard deviation of A.Mean.Sum from Warringer norms
-
-    feats = feats17_28(body, feats)
-    return feats
-
-def feats17_28(body, feats):
-
-    AoA, IMG, FAM = [], [], []
-    VMS, AMS, DMS = [], [], []
-    if len(body) > 0:
-        for i in body:
-            for j in bgl_data:
-                AoA.append(bgl_data[j][0])
-                IMG.append(bgl_data[j][1])
-                FAM.append(bgl_data[j][2])
-        for i in body:
-            for j in warr_data:
-                VMS.append(warr_data[j][0])
-                AMS.append(warr_data[j][1])
-                DMS.append(warr_data[j][2])  
     
-    if np.count_nonzero(~np.isnan(AoA)) > 0:
-        feats[17] = np.nanmean(AoA)
-        feats[20] = np.nanstd(AoA)
-    
-    if np.count_nonzero(~np.isnan(IMG)) > 0:
-        feats[18] = np.nanmean(IMG)
-        feats[21] = np.nanstd(IMG)
-    
-    if np.count_nonzero(~np.isnan(FAM)) > 0:
-        feats[19] = np.nanmean(FAM)
-        feats[22] = np.nanstd(FAM)
+    AoA_list, IMG_list, FAM_list = [], [], []
+    VMS_list, AMS_list, DMS_list = [], [], []
+    for i in body:
+        if i in bgl_data:
+            AoA, IMG, FAM = [float((val if val != "" else 0)) for val in bgl_data[i]]
+            AoA_list.append(AoA)
+            IMG_list.append(IMG)
+            FAM_list.append(FAM)
+        if i in warr_data:
+            VMS, AMS, DMS = [float((val if val != "" else 0)) for val in warr_data[i]]
+            VMS_list.append(VMS)
+            AMS_list.append(AMS)
+            DMS_list.append(DMS)
+    AoA_list = np.array(AoA_list); IMG_list = np.array(IMG_list); FAM_list = np.array(FAM_list)
+    VMS_list = np.array(VMS_list); AMS_list = np.array(AMS_list); DMS_list = np.array(DMS_list)
 
-    if np.count_nonzero(~np.isnan(VMS)) > 0:
-        feats[23] = np.nanmean(VMS)
-        feats[26] = np.nanstd(VMS)
-    
-    if np.count_nonzero(~np.isnan(AMS)) > 0:
-        feats[24] = np.nanmean(AMS)
-        feats[27] = np.nanstd(AMS)
+    if len(AoA_list) >0:
+        feats[17] = np.mean(AoA_list)
+        feats[20] = np.std(AoA_list)
 
-    if np.count_nonzero(~np.isnan(DMS)) > 0:
-        feats[25] = np.nanmean(DMS)
-        feats[28] = np.nanstd(DMS)
+    if len(IMG_list) >0:
+        feats[18] = np.mean(IMG_list)
+        feats[21] = np.std(IMG_list)
 
+    if len(FAM_list) >0:
+        feats[19] = np.mean(FAM_list)
+        feats[22] = np.std(FAM_list)
+
+    if len(VMS_list) >0:
+        feats[23] = np.mean(VMS_list)
+        feats[26] = np.std(VMS_list)
+
+    if len(AMS_list) >0:
+        feats[24] = np.mean(AMS_list)
+        feats[27] = np.std(AMS_list)
+
+    if len(DMS_list) >0:
+        feats[25] = np.mean(DMS_list)
+        feats[28] = np.std(DMS_list)
     return feats
 
     
@@ -299,7 +300,11 @@ def main(args):
         # 174th is the category (label)
         feats[i, -1] = categories.index(comment['cat'])
 
+        if (i + 1) % 1000 == 0:
+            print(f"iter: '{i + 1}'")
 
+
+    # save output as a zipped numpy file
     np.savez_compressed(args.output, feats)
 
     
