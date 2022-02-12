@@ -254,6 +254,17 @@ def class34(output_dir, X_train, X_test, y_train, y_test, i):
     # matrix of acuracies  (col=classifier, row=fold)
     accuracy_models = np.zeros((k, len(listModels)))
     
+    # since using the full dataset, vertically stack the train and test sets that we initially did a split on
+    X = np.vstack((X_train, X_test))
+    # do the same for the lables (making sure they're stacked in the same order)
+    y = np.concatenate((y_train, y_test), axis= 0)
+    # k
+    k=6
+    # do a random split but set the random state to 401 for reproducibility
+    kfold = KFold(k, shuffle = True, random_state=401)
+    # matrix of acuracies  (col=classifier, row=fold)
+    accuracy_models = np.zeros((k, len(listModels)))
+    
     with open(f"{output_dir}/a1_3.4.txt", "w") as outf:
         # Prepare kfold_accuracies, then uncomment this, so it writes them to outf.
         # for each fold:
